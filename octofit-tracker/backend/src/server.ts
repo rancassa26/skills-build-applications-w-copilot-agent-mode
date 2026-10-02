@@ -15,6 +15,18 @@ const baseUrl = codespaceName
 
 app.use(express.json());
 
+app.use((request, response, next) => {
+  response.setHeader('Access-Control-Allow-Origin', '*');
+  response.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH,DELETE,OPTIONS');
+  response.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+
+  if (request.method === 'OPTIONS') {
+    return response.sendStatus(204);
+  }
+
+  return next();
+});
+
 await connectDatabase();
 
 app.get('/api/', (_request, response) => {
