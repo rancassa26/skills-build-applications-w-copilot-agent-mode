@@ -1,5 +1,5 @@
 import express from 'express';
-import db from './config/database.js';
+import db, { connectDatabase } from './config/database.js';
 import User from './models/User.js';
 import Team from './models/Team.js';
 import Activity from './models/Activity.js';
@@ -14,6 +14,8 @@ const baseUrl = codespaceName
   : 'http://localhost:8000';
 
 app.use(express.json());
+
+await connectDatabase();
 
 app.get('/api/', (_request, response) => {
   response.json({ baseUrl });
